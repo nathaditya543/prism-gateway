@@ -1,6 +1,6 @@
 # The whole demo setup: the gateway plus the pack's two mock providers.
 #
-#   docker compose up --build        # first run builds the gateway image
+#   docker compose up --build        # first run builds both images
 #   open http://localhost:8080/console/   (admin token: prism-admin-dev)
 #
 # The mock ports are published too, so failure injection works from the host exactly as in the
@@ -8,22 +8,21 @@
 
 services:
   alpha:
-    image: python:3.12-slim
-    command: ["python", "/opt/mock_provider.py", "--port", "9001", "--name", "alpha"]
-    volumes:
-      - ./scripts/mock_provider.py:/opt/mock_provider.py:ro
-    environment:
-      PYTHONUNBUFFERED: "1"
+    build:
+      context: .
+      dockerfile: docker/mock-provider.Dockerfile
+    image: prism-mock-provider:0.0.1
+    command: ["--port", "9001", "--name", "alpha"]
     ports:
       - "9001:9001"
 
   beta:
-    image: python:3.12-slim
-    command: ["python", "/opt/mock_provider.py", "--port", "9002", "--name", "beta"]
-    volumes:
-      - ./scripts/mock_provider.py:/opt/mock_provider.py:ro
-    environment:
-      PYTHONUNBUFFERED: "1"
+    build:
+      context: .
+      dockerfile: docker/mock-provider.Dockerfile
+    # Same Dockerfile as alpha, so every layer is shared. No explicit image name: two services
+    # building the same tag at once collide ("image already exists").
+    command: ["--port", "9002", "--name", "beta"]
     ports:
       - "9002:9002"
 
