@@ -36,3 +36,9 @@ build/
 var/
 *.log
 __pycache__/
+
+### Personal notes (not part of the submission) ###
+VIDEO_SCRIPT.md
+
+### Exported container images (distribute via a registry or release asset, not git) ###
+dist/

@@ -78,6 +78,50 @@ curl -si localhost:8080/v1/chat/completions \
 
   They're loaded from `data/seed_keys.json` on every start.
 
+### Run with Docker
+
+This needs Docker with Compose v2, and nothing else: no JDK or Python on the host.
+
+```bash
+docker compose up --build
+```
+
+That starts three containers:
+
+| Service | Port | Image |
+|---|---|---|
+| `gateway` | 8080 | `prism-gateway:0.0.1`, built from the `Dockerfile` |
+| `alpha` | 9001 | `python:3.12-slim` running the pack's mock provider |
+| `beta` | 9002 | `python:3.12-slim` running the pack's mock provider |
+
+Everything in this README then works unchanged against `localhost`: the curl examples, the console,
+`scripts/demo.py`, `scripts/demo_helpers.sh`, and failure injection on `localhost:9001`.
+
+- The gateway reaches the mocks by service name. Compose sets `PRISM_PROVIDER_ALPHA_BASE_URL` and
+  `PRISM_PROVIDER_BETA_BASE_URL` for this.
+- The H2 database lives in the `prism-data` volume, so it survives restarts.
+  `docker compose down -v` gives you a fresh database.
+
+**From the prebuilt image file** instead of building it yourself:
+
+```bash
+docker load -i prism-gateway-0.0.1.tar.gz
+docker run --rm -p 8080:8080 \
+  -e PRISM_PROVIDER_ALPHA_BASE_URL=http://host.docker.internal:9001/v1 \
+  -e PRISM_PROVIDER_BETA_BASE_URL=http://host.docker.internal:9002/v1 \
+  prism-gateway:0.0.1
+```
+
+This assumes the mock providers are running on the host. On Linux, add
+`--add-host=host.docker.internal:host-gateway`.
+
+**About the image:**
+
+- It's a two-stage build: a JDK stage compiles the jar, then the image ships only an Eclipse
+  Temurin 17 **JRE** with the jar and the `data/` files.
+- It runs as a **non-root** user.
+- Extra JVM flags go in `JAVA_OPTS`, e.g. `-e JAVA_OPTS=-Xmx512m`.
+
 ### Configuration
 
 | Property / env var | Default | Meaning |
@@ -223,7 +267,7 @@ src/main/java/com/prism/gateway/
 - Added for this project:
   - `scripts/routing_eval.py` (one-command routing eval)
   - `scripts/demo.py` (the 10-step demo flow)
-  - `scripts/demo_helpers.sh` and `VIDEO_SCRIPT.md` (shell helpers and the script for recording the explainer video)
+  - `scripts/demo_helpers.sh` (shell shortcuts for live demos: `chat`, `stream`, `probe`, `alpha down`, …)
   - `scripts/compare_embeddings.py` (optional: cache matcher vs a real embedding model)
   - `data/routing_holdout.jsonl`, `data/routing_holdout2.jsonl` (held-out routing cases)
   - `verification/` (raw outputs behind [VERIFICATION.md](VERIFICATION.md))
