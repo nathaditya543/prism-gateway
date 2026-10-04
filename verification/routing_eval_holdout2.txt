@@ -1,0 +1,33 @@
+Routing eval: data/routing_holdout2.jsonl
+Method: engineered signals on task sentences (see DifficultyRouter), threshold 2.0
+
+  case       expected actual   result score  reason
+  h2_001     fast     fast     PASS     0.0  simple (score 0.0 < 2): no difficulty signals
+  h2_002     fast     fast     PASS    -2.0  simple (score -2.0 < 2): text transformation (-2)
+  h2_003     fast     fast     PASS     0.0  simple (score 0.0 < 2): no difficulty signals
+  h2_004     fast     fast     PASS    -2.0  simple (score -2.0 < 2): text transformation (-2)
+  h2_005     fast     fast     PASS    -1.5  simple (score -1.5 < 2): definition (-1.5)
+  h2_006     fast     fast     PASS     0.0  simple (score 0.0 < 2): no difficulty signals
+  h2_007     fast     fast     PASS     0.0  simple (score 0.0 < 2): no difficulty signals
+  h2_008     fast     fast     PASS    -2.0  simple (score -2.0 < 2): fact lookup (-2)
+  h2_009     fast     fast     PASS    -1.0  simple (score -1.0 < 2): closed yes/no question (-1)
+  h2_010     fast     fast     PASS     0.0  simple (score 0.0 < 2): no difficulty signals
+  h2_011     fast     fast     PASS    -2.0  simple (score -2.0 < 2): fact lookup (-2)
+  h2_012     fast     fast     PASS     0.0  simple (score 0.0 < 2): no difficulty signals
+  h2_013     smart    smart    PASS     2.0  complex (score 2.0 >= 2): causal 'why' question (+2)
+  h2_014     smart    smart    PASS     5.0  complex (score 5.0 >= 2): formal proof/derivation (+3), algorithmic complexity (+2)
+  h2_015     smart    smart    PASS     3.5  complex (score 3.5 >= 2): causal analysis (+1.5), open-ended method (+1), multi-part request x1 (+1)
+  h2_016     smart    smart    PASS     2.5  complex (score 2.5 >= 2): design task (+2), domain terms [consistency] (+0.5)
+  h2_017     smart    smart    PASS     2.5  complex (score 2.5 >= 2): explicit reasoning requested (+2), domain terms [sharded] (+0.5)
+  h2_018     smart    smart    PASS     2.0  complex (score 2.0 >= 2): symptom diagnosis (+2)
+  h2_019     smart    smart    PASS     3.0  complex (score 3.0 >= 2): formal proof/derivation (+3)
+  h2_020     smart    fast     FAIL     1.0  simple (score 1.0 < 2): multi-part request x1 (+1)
+  h2_021     smart    smart    PASS     2.0  complex (score 2.0 >= 2): open-ended method (+1), domain terms [migrate, schema] (+1)
+  h2_022     smart    smart    PASS     3.0  complex (score 3.0 >= 2): quantitative reasoning (+2), multi-part request x1 (+1)
+  h2_023     smart    smart    PASS     2.0  complex (score 2.0 >= 2): design task (+2)
+  h2_024     smart    smart    PASS     2.0  complex (score 2.0 >= 2): symptom diagnosis (+2)
+
+  accuracy: 23/24 = 95.8%
+  baseline (length-only: >= 20 words routes to smart): 13/24 = 54.2%
+
+  full report written to verification/routing_eval_holdout2.json

@@ -1,0 +1,214 @@
+{
+  "file": "data/routing_holdout.jsonl",
+  "method": "engineered signals on task sentences (see DifficultyRouter), threshold 2.0",
+  "total": 20,
+  "correct": 20,
+  "accuracy": 1.0,
+  "baseline": {
+    "method": "length-only: >= 20 words routes to smart",
+    "correct": 9,
+    "accuracy": 0.45
+  },
+  "cases": [
+    {
+      "id": "hold_001",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": 0.0,
+      "reason": "simple (score 0.0 < 2): no difficulty signals",
+      "baseline": "fast",
+      "note": "short fact"
+    },
+    {
+      "id": "hold_002",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -3.0,
+      "reason": "simple (score -3.0 < 2): text transformation (-2), short output requested (-1)",
+      "baseline": "smart",
+      "note": "trap: long material + domain words (migration), trivial summary"
+    },
+    {
+      "id": "hold_003",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": 0.0,
+      "reason": "simple (score 0.0 < 2): no difficulty signals",
+      "baseline": "smart",
+      "note": "trap: long roster, trivial count"
+    },
+    {
+      "id": "hold_004",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): text transformation (-2)",
+      "baseline": "fast",
+      "note": "short transformation"
+    },
+    {
+      "id": "hold_005",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): text transformation (-2)",
+      "baseline": "fast",
+      "note": "short transformation"
+    },
+    {
+      "id": "hold_006",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": 0.0,
+      "reason": "simple (score 0.0 < 2): no difficulty signals",
+      "baseline": "fast",
+      "note": "short fact"
+    },
+    {
+      "id": "hold_007",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": 0.0,
+      "reason": "simple (score 0.0 < 2): no difficulty signals",
+      "baseline": "fast",
+      "note": "trivial reformat, no imperative from the verb list"
+    },
+    {
+      "id": "hold_008",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": 0.0,
+      "reason": "simple (score 0.0 < 2): no difficulty signals",
+      "baseline": "fast",
+      "note": "short lookup"
+    },
+    {
+      "id": "hold_009",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): fact lookup (-2)",
+      "baseline": "smart",
+      "note": "trap: pasted JSON config, trivial lookup"
+    },
+    {
+      "id": "hold_010",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): fact lookup (-2)",
+      "baseline": "fast",
+      "note": "short fact"
+    },
+    {
+      "id": "hold_011",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 3.5,
+      "reason": "complex (score 3.5 >= 2): formal proof/derivation (+3), domain terms [primes] (+0.5)",
+      "baseline": "fast",
+      "note": "short proof phrased without 'prove'"
+    },
+    {
+      "id": "hold_012",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 2.0,
+      "reason": "complex (score 2.0 >= 2): causal 'why' question (+2)",
+      "baseline": "fast",
+      "note": "short debugging 'why'"
+    },
+    {
+      "id": "hold_013",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 2.5,
+      "reason": "complex (score 2.5 >= 2): open-ended method (+1), domain terms [shard] (+0.5), multi-part request x1 (+1)",
+      "baseline": "smart",
+      "note": "open-ended design with risks"
+    },
+    {
+      "id": "hold_014",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 2.0,
+      "reason": "complex (score 2.0 >= 2): open-ended method (+1), multi-part request x1 (+1)",
+      "baseline": "fast",
+      "note": "yes/no opener but needs mechanism + method"
+    },
+    {
+      "id": "hold_015",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 3.0,
+      "reason": "complex (score 3.0 >= 2): causal analysis (+1.5), explanation of how/what (+1), domain terms [locking] (+0.5)",
+      "baseline": "fast",
+      "note": "conceptual comparison with failure cases"
+    },
+    {
+      "id": "hold_016",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 6.0,
+      "reason": "complex (score 6.0 >= 2): formal proof/derivation (+3), quantitative reasoning (+2), multi-part request x1 (+1)",
+      "baseline": "fast",
+      "note": "probability derivation"
+    },
+    {
+      "id": "hold_017",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 3.5,
+      "reason": "complex (score 3.5 >= 2): causal analysis (+1.5), symptom diagnosis (+2)",
+      "baseline": "fast",
+      "note": "trap: debugging question with no keyword from the signal lists"
+    },
+    {
+      "id": "hold_018",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 2.0,
+      "reason": "complex (score 2.0 >= 2): code generation (+1), edge-case reasoning (+1)",
+      "baseline": "fast",
+      "note": "non-trivial SQL with edge cases"
+    },
+    {
+      "id": "hold_019",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 2.0,
+      "reason": "complex (score 2.0 >= 2): security analysis (+2)",
+      "baseline": "fast",
+      "note": "security analysis, vocabulary outside the lists"
+    },
+    {
+      "id": "hold_020",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 4.0,
+      "reason": "complex (score 4.0 >= 2): explicit reasoning requested (+2), quantitative reasoning (+2)",
+      "baseline": "smart",
+      "note": "multi-step probability"
+    }
+  ]
+}

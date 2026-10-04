@@ -1,0 +1,70 @@
+$ python scripts/demo.py
+
+=== Step 1: providers and gateway are healthy
+  alpha    HTTP 200  {'status': 'ok', 'name': 'alpha'}
+  beta     HTTP 200  {'status': 'ok', 'name': 'beta'}
+  gateway  HTTP 200  {'status': 'ok', 'database': 'ok', 'virtual_keys': 4, 'providers': ['alpha', 'beta']}
+  cleared search-team cache entries: 6
+
+=== Step 2: non-streaming request, search key, 'fast' alias
+  'What is a message queue and when should I use one?'
+    HTTP 200  x-prism-provider=alpha/alpha-small  x-prism-cache=miss  x-prism-fallback=false  x-prism-cost-usd=0.00001605
+
+=== Step 3: streaming request - tokens arrive one by one
+  HTTP 200  x-prism-provider=alpha/alpha-small x-prism-cache=miss (headers after 8 ms)
+  [alpha:alpha-small] Here's a concise answer: Explain how server-sent events work.. In practice, start simple, measure, then iterate. 
+  [DONE] after 19 chunks, 533 ms
+  logged: status=ok tokens=5+17 cost=$0.00001095
+
+=== Step 4: semantic cache: repeat, paraphrase, near-miss (search key, threshold 0.92)
+  'req_cache_a1 (first ask)'
+    HTTP 200  x-prism-provider=alpha/alpha-small  x-prism-cache=miss  x-prism-fallback=false  x-prism-cost-usd=0.00001455
+  'req_cache_a1 (exact repeat)'
+    HTTP 200  x-prism-provider=cache:alpha/alpha-small  x-prism-cache=hit  x-prism-fallback=false  x-prism-cost-usd=0  x-prism-cache-similarity=1.0
+  'req_cache_a2 (paraphrase)'
+    HTTP 200  x-prism-provider=cache:alpha/alpha-small  x-prism-cache=hit  x-prism-fallback=false  x-prism-cost-usd=0  x-prism-cache-similarity=1.0
+  'req_cache_a3 (near-miss, different intent)'
+    HTTP 200  x-prism-provider=alpha/alpha-small  x-prism-cache=miss  x-prism-fallback=false  x-prism-cost-usd=0.0000177
+  'req_no_cache (time-sensitive)'
+    HTTP 200  x-prism-provider=alpha/alpha-small  x-prism-cache=miss  x-prism-fallback=false  x-prism-cost-usd=0.00001695  x-prism-cache-bypass=time-sensitive prompt
+
+=== Step 5: smart routing with 'auto' (research key)
+  'route_011 short-but-hard'
+    HTTP 200  x-prism-provider=alpha/alpha-large  x-prism-cache=miss  x-prism-fallback=false  x-prism-cost-usd=0.000567  x-prism-route=smart; score=3.5  x-prism-cache-bypass=cache disabled for this key
+    reason: complex (score 3.5 >= 2): formal proof/derivation (+3), domain terms [irrational] (+0.5)
+  'route_006 long-but-trivial'
+    HTTP 200  x-prism-provider=alpha/alpha-small  x-prism-cache=miss  x-prism-fallback=false  x-prism-cost-usd=0.00002415  x-prism-route=fast; score=-2.0  x-prism-cache-bypass=cache disabled for this key
+    reason: simple (score -2.0 < 2): fact lookup (-2)
+  routing eval: 20/20 = 100% (length-only baseline 60%) - full table: scripts/routing_eval.py
+
+=== Step 6: burst past the free-tier key's 10 requests/minute
+  first rejection: {'message': 'Rate limit of 10 requests per minute exceeded for this key', 'type': 'rate_limit_exceeded', 'code': 'rate_limit_exceeded', 'param': None}
+  outcomes: {200: 10, 429: 5}
+
+=== Step 7: budget-demo key: first request spends the tiny budget, second is rejected
+  'request 1'
+    HTTP 200  x-prism-provider=alpha/alpha-small  x-prism-cache=miss  x-prism-fallback=false  x-prism-cost-usd=0.00001395  x-prism-cache-bypass=cache disabled for this key
+  'request 2'
+    HTTP 402  
+    error: {'message': 'Monthly budget of $0.00001 exhausted for this key (spent $0.00001395)', 'type': 'budget_exceeded', 'code': 'budget_exceeded', 'param': None}
+
+=== Step 8: take provider alpha down live -> served by beta
+  alpha: mode=down
+  'request while alpha is down'
+    HTTP 200  x-prism-provider=beta/beta-small  x-prism-cache=miss  x-prism-fallback=true  x-prism-cost-usd=0.0000108
+    attempts: alpha/alpha-small:503 -> beta/beta-small:ok
+  alpha: slow (3000 ms) - the gateway's 2500 ms timeout fails over
+  'request while alpha is slow'
+    HTTP 200  x-prism-provider=beta/beta-small  x-prism-cache=miss  x-prism-fallback=true  x-prism-cost-usd=0.0000098
+    answered in 2526 ms, attempts: alpha/alpha-small:timeout -> beta/beta-small:ok
+  alpha: restored
+  'request after restore'
+    HTTP 200  x-prism-provider=alpha/alpha-small  x-prism-cache=miss  x-prism-fallback=false  x-prism-cost-usd=0.00001545
+
+=== Step 9: ops console
+  open http://localhost:8080/console/  (admin token: prism-admin-dev)
+
+=== Step 10: verification scripts
+  python3 scripts/smoke_test.py --url http://localhost:8080 --key prism-sk-search-1a2b3c --model fast
+  python3 scripts/load_test.py --url http://localhost:8080 --key prism-sk-free-7g8h9i --model fast --requests 30 --concurrency 10 --rpm-limit 10
+  (wait 60s after step 6 before the load test: the free-tier window is still full)

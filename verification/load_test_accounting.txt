@@ -1,0 +1,39 @@
+$ python scripts/load_test.py --url http://localhost:8080 --key prism-sk-research-4d5e6f --model fast --requests 200 --concurrency 20 --rpm-limit 300
+Bursting 200 requests at concurrency 20 ...
+
+Burst finished in 0.8s
+  accepted (200):      200
+  rate limited (429):  0
+  latency avg/p95 ms:  62 / 219
+
+Client-side accounting totals - compare with your usage API for this key:
+  accepted requests:   200
+  prompt tokens:       2400
+  completion tokens:   5275
+  sum of cost headers: 0.003525 USD (200 of 200 had a numeric header)
+
+Over-admission check OK: 200 accepted <= limit 300.
+
+$ curl -H "X-Admin-Token: ..." "http://localhost:8080/admin/usage?key=prism-sk-research-4d5e6f"
+{
+    "key": "prism-sk-research-4d5e6f",
+    "team": "research",
+    "from": "2026-10-01",
+    "to": "2026-10-03",
+    "requests": 200,
+    "rejected": 0,
+    "failed": 0,
+    "prompt_tokens": 2400,
+    "completion_tokens": 5275,
+    "cost_usd": 0.003525,
+    "cost_usd_exact": "0.003525",
+    "cache_hits": 0,
+    "budget": {
+        "month_to_date_usd": 0.003525,
+        "month_to_date_usd_exact": "0.003525",
+        "monthly_budget_usd": 500.0,
+        "monthly_budget_usd_exact": "500",
+        "exhausted": false
+    },
+    "requests_per_minute": 300
+}

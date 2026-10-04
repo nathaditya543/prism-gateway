@@ -1,0 +1,29 @@
+Routing eval: data/routing_holdout.jsonl
+Method: engineered signals on task sentences (see DifficultyRouter), threshold 2.0
+
+  case       expected actual   result score  reason
+  hold_001   fast     fast     PASS     0.0  simple (score 0.0 < 2): no difficulty signals
+  hold_002   fast     fast     PASS    -3.0  simple (score -3.0 < 2): text transformation (-2), short output requested (-1)
+  hold_003   fast     fast     PASS     0.0  simple (score 0.0 < 2): no difficulty signals
+  hold_004   fast     fast     PASS    -2.0  simple (score -2.0 < 2): text transformation (-2)
+  hold_005   fast     fast     PASS    -2.0  simple (score -2.0 < 2): text transformation (-2)
+  hold_006   fast     fast     PASS     0.0  simple (score 0.0 < 2): no difficulty signals
+  hold_007   fast     fast     PASS     0.0  simple (score 0.0 < 2): no difficulty signals
+  hold_008   fast     fast     PASS     0.0  simple (score 0.0 < 2): no difficulty signals
+  hold_009   fast     fast     PASS    -2.0  simple (score -2.0 < 2): fact lookup (-2)
+  hold_010   fast     fast     PASS    -2.0  simple (score -2.0 < 2): fact lookup (-2)
+  hold_011   smart    smart    PASS     3.5  complex (score 3.5 >= 2): formal proof/derivation (+3), domain terms [primes] (+0.5)
+  hold_012   smart    smart    PASS     2.0  complex (score 2.0 >= 2): causal 'why' question (+2)
+  hold_013   smart    smart    PASS     2.5  complex (score 2.5 >= 2): open-ended method (+1), domain terms [shard] (+0.5), multi-part request x1 (+1)
+  hold_014   smart    smart    PASS     2.0  complex (score 2.0 >= 2): open-ended method (+1), multi-part request x1 (+1)
+  hold_015   smart    smart    PASS     3.0  complex (score 3.0 >= 2): causal analysis (+1.5), explanation of how/what (+1), domain terms [locking] (+0.5)
+  hold_016   smart    smart    PASS     6.0  complex (score 6.0 >= 2): formal proof/derivation (+3), quantitative reasoning (+2), multi-part request x1 (+1)
+  hold_017   smart    smart    PASS     3.5  complex (score 3.5 >= 2): causal analysis (+1.5), symptom diagnosis (+2)
+  hold_018   smart    smart    PASS     2.0  complex (score 2.0 >= 2): code generation (+1), edge-case reasoning (+1)
+  hold_019   smart    smart    PASS     2.0  complex (score 2.0 >= 2): security analysis (+2)
+  hold_020   smart    smart    PASS     4.0  complex (score 4.0 >= 2): explicit reasoning requested (+2), quantitative reasoning (+2)
+
+  accuracy: 20/20 = 100.0%
+  baseline (length-only: >= 20 words routes to smart): 9/20 = 45.0%
+
+  full report written to verification/routing_eval_holdout.json

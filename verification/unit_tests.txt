@@ -1,0 +1,8 @@
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.432 s -- in com.prism.gateway.cache.CacheDecisionTest
+Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.945 s -- in com.prism.gateway.gateway.GatewayIntegrationTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in com.prism.gateway.limits.BudgetServiceTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in com.prism.gateway.limits.SlidingWindowRateLimiterTest
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.147 s -- in com.prism.gateway.provider.UpstreamInvokerTest
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.031 s -- in com.prism.gateway.routing.DifficultyRouterTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.prism.gateway.usage.CostCalculatorTest
+Tests run: 62, Failures: 0, Errors: 0, Skipped: 0

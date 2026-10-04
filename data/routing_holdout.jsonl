@@ -1,0 +1,20 @@
+{"id": "hold_001", "expected_tier": "fast", "note": "short fact", "prompt": "What year did the Berlin Wall fall?"}
+{"id": "hold_002", "expected_tier": "fast", "note": "trap: long material + domain words (migration), trivial summary", "prompt": "Summarize this paragraph in one sentence: 'Our team migrated the billing database to a new cluster last weekend. The migration took six hours and there was no customer impact. We will decommission the old cluster next month.'"}
+{"id": "hold_003", "expected_tier": "fast", "note": "trap: long roster, trivial count", "prompt": "Here are the meeting attendees: Ana (Engineering), Ben (Sales), Chloe (Design), Dev (Engineering), Eli (Support), Farah (Engineering), Gus (Finance), Hana (Design). How many attendees are from Engineering?"}
+{"id": "hold_004", "expected_tier": "fast", "note": "short transformation", "prompt": "Spell 'necessary' backwards."}
+{"id": "hold_005", "expected_tier": "fast", "note": "short transformation", "prompt": "Sort these numbers in ascending order: 42, 7, 19, 3, 88, 21."}
+{"id": "hold_006", "expected_tier": "fast", "note": "short fact", "prompt": "What is the plural of 'cactus'?"}
+{"id": "hold_007", "expected_tier": "fast", "note": "trivial reformat, no imperative from the verb list", "prompt": "Turn this list into a comma-separated line: apples, bananas, cherries, dates."}
+{"id": "hold_008", "expected_tier": "fast", "note": "short lookup", "prompt": "Give me a synonym for 'happy'."}
+{"id": "hold_009", "expected_tier": "fast", "note": "trap: pasted JSON config, trivial lookup", "prompt": "Below is a JSON config. {\"retries\": 3, \"timeout_ms\": 2500, \"region\": \"eu-west-1\", \"cache\": {\"enabled\": true, \"ttl\": 600}} What is the value of timeout_ms?"}
+{"id": "hold_010", "expected_tier": "fast", "note": "short fact", "prompt": "Which planet is closest to the sun?"}
+{"id": "hold_011", "expected_tier": "smart", "note": "short proof phrased without 'prove'", "prompt": "Show that there are infinitely many primes."}
+{"id": "hold_012", "expected_tier": "smart", "note": "short debugging 'why'", "prompt": "Why does my React component render twice in development but only once in production?"}
+{"id": "hold_013", "expected_tier": "smart", "note": "open-ended design with risks", "prompt": "How should we shard a 2 TB Postgres table with a few very hot tenants, and what are the risks?"}
+{"id": "hold_014", "expected_tier": "smart", "note": "yes/no opener but needs mechanism + method", "prompt": "Is it possible for a TCP connection to be half-open, and how would you detect it?"}
+{"id": "hold_015", "expected_tier": "smart", "note": "conceptual comparison with failure cases", "prompt": "Explain the difference between optimistic and pessimistic locking and when each one fails."}
+{"id": "hold_016", "expected_tier": "smart", "note": "probability derivation", "prompt": "Calculate the expected number of coin flips needed to get two heads in a row, and show the derivation."}
+{"id": "hold_017", "expected_tier": "smart", "note": "trap: debugging question with no keyword from the signal lists", "prompt": "Our Kafka consumers keep rebalancing every few minutes under load. What could be causing this?"}
+{"id": "hold_018", "expected_tier": "smart", "note": "non-trivial SQL with edge cases", "prompt": "Write a SQL query that returns the second-highest salary per department, handling ties correctly."}
+{"id": "hold_019", "expected_tier": "smart", "note": "security analysis, vocabulary outside the lists", "prompt": "Outline a threat model for a public file-upload endpoint."}
+{"id": "hold_020", "expected_tier": "smart", "note": "multi-step probability", "prompt": "Given a 100-node cluster where each node fails independently with probability 0.1% per day, what is the probability that at least one node fails this week? Explain your steps."}

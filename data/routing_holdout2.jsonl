@@ -1,0 +1,24 @@
+{"id": "h2_001", "expected_tier": "fast", "note": "short fact", "prompt": "What time zone is Tokyo in?"}
+{"id": "h2_002", "expected_tier": "fast", "note": "short transformation", "prompt": "Convert this to uppercase: hello world"}
+{"id": "h2_003", "expected_tier": "fast", "note": "trap: long ID list, trivial count", "prompt": "Here is a list of order IDs: A-1001, A-1002, A-1003, B-2001, B-2002, C-3001, C-3002, C-3003, C-3004. How many order IDs start with C?"}
+{"id": "h2_004", "expected_tier": "fast", "note": "short grammar fix", "prompt": "Fix the grammar in this sentence: 'Me and him goes to the store yesterday.'"}
+{"id": "h2_005", "expected_tier": "fast", "note": "acronym lookup", "prompt": "What does API stand for?"}
+{"id": "h2_006", "expected_tier": "fast", "note": "short lookup", "prompt": "Give me three synonyms for 'quick'."}
+{"id": "h2_007", "expected_tier": "fast", "note": "short creative", "prompt": "Write a haiku about autumn."}
+{"id": "h2_008", "expected_tier": "fast", "note": "trap: long roster, trivial tally", "prompt": "Below is our team's lunch order: Sam - burrito, Lee - salad, Ana - pizza, Raj - burrito, Mo - soup, Kim - burrito, Zoe - salad. Which dish was ordered most often?"}
+{"id": "h2_009", "expected_tier": "fast", "note": "closed fact", "prompt": "Is Python dynamically typed?"}
+{"id": "h2_010", "expected_tier": "fast", "note": "short list", "prompt": "List the days of the week in French."}
+{"id": "h2_011", "expected_tier": "fast", "note": "trap: technical text, trivial extraction", "prompt": "Here is a stack trace line: 'java.lang.NullPointerException at com.acme.OrderService.total(OrderService.java:42)'. Which file and line number does it point to?"}
+{"id": "h2_012", "expected_tier": "fast", "note": "trap: short reply drafting", "prompt": "Reply to this customer politely saying their package ships tomorrow: 'Where is my order? It has been a week!'"}
+{"id": "h2_013", "expected_tier": "smart", "note": "debugging with investigation plan", "prompt": "Why might a Kubernetes pod be stuck in CrashLoopBackOff even though the container runs fine locally? Walk through how you'd investigate."}
+{"id": "h2_014", "expected_tier": "smart", "note": "short derivation", "prompt": "Derive the time complexity of building a binary heap from an unsorted array."}
+{"id": "h2_015", "expected_tier": "smart", "note": "root-cause analysis + prevention", "prompt": "We see duplicate charges about once per 10,000 payments. What are the likely root causes and how would you prevent them?"}
+{"id": "h2_016", "expected_tier": "smart", "note": "distributed design", "prompt": "Design an API rate limiter that works across multiple regions with eventual consistency."}
+{"id": "h2_017", "expected_tier": "smart", "note": "trade-off judgment", "prompt": "Is it better to use UUIDs or auto-increment IDs as primary keys in a sharded database? Justify your answer."}
+{"id": "h2_018", "expected_tier": "smart", "note": "trap: hard context, generic question", "prompt": "Our nightly ETL job got 3x slower after we doubled the cluster size. What could explain this?"}
+{"id": "h2_019", "expected_tier": "smart", "note": "proof without 'prove'", "prompt": "Show that the halting problem is undecidable."}
+{"id": "h2_020", "expected_tier": "smart", "note": "hard concurrent code + explanation", "prompt": "Write a lock-free queue in C++ and explain the memory ordering you chose."}
+{"id": "h2_021", "expected_tier": "smart", "note": "migration planning", "prompt": "How would you migrate 50 million rows to a new schema without downtime?"}
+{"id": "h2_022", "expected_tier": "smart", "note": "probability with reasoning", "prompt": "What is the expected number of rolls of a fair die until you see a six, and why?"}
+{"id": "h2_023", "expected_tier": "smart", "note": "architecture critique", "prompt": "Critique this architecture: a single Postgres instance behind 40 stateless API servers, with all background jobs polling a jobs table every second."}
+{"id": "h2_024", "expected_tier": "smart", "note": "trap: severe bug, vague question", "prompt": "Our login page sometimes logs users into someone else's account. What could be going on?"}

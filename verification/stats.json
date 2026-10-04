@@ -1,0 +1,51 @@
+{
+    "totals": {
+        "requests": 524,
+        "cost_usd": 0.0089295,
+        "cost_usd_exact": "0.0089295",
+        "fallbacks": 14,
+        "retries": 83
+    },
+    "by_status": [
+        {
+            "status": "ok",
+            "count": 492
+        },
+        {
+            "status": "rejected_rate_limit",
+            "count": 25
+        },
+        {
+            "status": "cache_hit",
+            "count": 4
+        },
+        {
+            "status": "rejected_auth",
+            "count": 1
+        },
+        {
+            "status": "rejected_budget",
+            "count": 1
+        },
+        {
+            "status": "rejected_unknown_model",
+            "count": 1
+        }
+    ],
+    "latency": {
+        "sample_size": 490,
+        "total_ms": {
+            "avg": 92,
+            "p50": 21,
+            "p95": 283,
+            "max": 2521
+        },
+        "gateway_added_ms": {
+            "avg": 41,
+            "p50": 1,
+            "p95": 260,
+            "max": 699
+        },
+        "method": "per non-streaming request: total latency minus time spent in upstream calls (includes auth, limits, cache lookup, logging, and retry backoff)"
+    }
+}

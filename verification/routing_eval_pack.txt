@@ -1,0 +1,29 @@
+Routing eval: data/routing_eval.jsonl
+Method: engineered signals on task sentences (see DifficultyRouter), threshold 2.0
+
+  case       expected actual   result score  reason
+  route_001  fast     fast     PASS    -2.0  simple (score -2.0 < 2): fact lookup (-2)
+  route_002  fast     fast     PASS    -2.0  simple (score -2.0 < 2): text transformation (-2)
+  route_003  fast     fast     PASS    -1.0  simple (score -1.0 < 2): short output requested (-1)
+  route_004  fast     fast     PASS    -1.5  simple (score -1.5 < 2): definition (-1.5)
+  route_005  fast     fast     PASS    -2.0  simple (score -2.0 < 2): text transformation (-2)
+  route_006  fast     fast     PASS    -2.0  simple (score -2.0 < 2): fact lookup (-2)
+  route_007  fast     fast     PASS    -2.0  simple (score -2.0 < 2): fact lookup (-2)
+  route_008  fast     fast     PASS    -2.0  simple (score -2.0 < 2): extraction (-2)
+  route_009  fast     fast     PASS    -1.0  simple (score -1.0 < 2): closed yes/no question (-1)
+  route_010  fast     fast     PASS    -2.0  simple (score -2.0 < 2): text transformation (-2)
+  route_011  smart    smart    PASS     3.5  complex (score 3.5 >= 2): formal proof/derivation (+3), domain terms [irrational] (+0.5)
+  route_012  smart    smart    PASS     4.0  complex (score 4.0 >= 2): explicit reasoning requested (+2), estimation (+2)
+  route_013  smart    smart    PASS     6.0  complex (score 6.0 >= 2): causal 'why' question (+2), causal analysis (+1.5), enumerated analysis (+1), domain terms [p99, latency, distributed] (+1.5)
+  route_014  smart    smart    PASS     5.5  complex (score 5.5 >= 2): trade-off analysis (+2), design task (+2), domain terms [schema, multi-tenant, proration] (+1.5)
+  route_015  smart    smart    PASS     7.5  complex (score 7.5 >= 2): explicit reasoning requested (+2), comparison (+1.5), recommendation (+1), domain terms [event sourcing, ledger] (+1), multi-part request x2 (+2)
+  route_016  smart    smart    PASS     5.0  complex (score 5.0 >= 2): algorithmic complexity (+2), code generation (+1), explanation of how/what (+1), multi-part request x1 (+1)
+  route_017  smart    smart    PASS     4.5  complex (score 4.5 >= 2): explanation of how/what (+1), edge-case reasoning (+1), domain terms [consistency, quorum, partition] (+1.5), multi-part request x1 (+1)
+  route_018  smart    smart    PASS     4.5  complex (score 4.5 >= 2): planning (+1.5), open-ended method (+1), domain terms [zero-downtime, migration] (+1), multi-part request x1 (+1)
+  route_019  smart    smart    PASS     5.0  complex (score 5.0 >= 2): causal analysis (+1.5), diagnosis (+1.5), open-ended method (+1), multi-part request x1 (+1)
+  route_020  smart    smart    PASS     3.5  complex (score 3.5 >= 2): formal proof/derivation (+3), domain terms [integers] (+0.5)
+
+  accuracy: 20/20 = 100.0%
+  baseline (length-only: >= 20 words routes to smart): 12/20 = 60.0%
+
+  full report written to verification/routing_eval_pack.json

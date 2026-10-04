@@ -1,0 +1,36 @@
+$ python scripts/smoke_test.py --url http://localhost:8080 --key prism-sk-search-1a2b3c --model fast
+
+[1] Non-streaming completion + header contract
+  PASS  returns 200  (got 200)
+  PASS  body has choices and usage
+  PASS  header x-prism-provider present  (alpha/alpha-small)
+  PASS  header x-prism-cache present  (miss)
+  PASS  header x-prism-cost-usd present  (0.0000147)
+  PASS  first request is a cache miss  (miss)
+
+[2] Streaming
+  PASS  returns 200  (got 200)
+  PASS  content-type is text/event-stream  (text/event-stream;charset=UTF-8)
+  PASS  received multiple SSE chunks  (20 data lines)
+  PASS  stream ends with [DONE]
+
+[3] Auth
+  PASS  invalid key rejected with 401/403  (got 401)
+
+[4] Unknown model
+  PASS  unknown model rejected with 4xx  (got 404)
+  PASS  error body explains the problem  ({'error': {'message': "The model 'no-such-model-xyz' does not exist. Use an alia)
+
+[5] Semantic cache: exact repeat
+  PASS  identical repeat is a cache hit  (hit)
+
+[6] Semantic cache: paraphrases (each pair soft; at least one pair must hit)
+  PASS  pair A paraphrase is a cache hit  (hit)
+  WARN  pair B paraphrase is a cache hit  (miss)
+  PASS  matching is semantic, not exact-only (at least one pair hit)
+
+[7] Semantic cache: unrelated prompt
+  PASS  unrelated prompt is a cache miss  (miss)
+
+==================================================
+  17 passed, 1 warnings, 0 failed

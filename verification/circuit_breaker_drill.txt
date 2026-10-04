@@ -1,0 +1,19 @@
+alpha latency_ms=3000 (gateway request timeout 2500 ms)
+  request 1: HTTP 200  2.526099s  x-prism-provider: beta/beta-small
+  request 2: HTTP 200  2.510830s  x-prism-provider: beta/beta-small
+  request 3: HTTP 200  2.511914s  x-prism-provider: beta/beta-small
+  request 4: HTTP 200  2.524502s  x-prism-provider: beta/beta-small
+  request 5: HTTP 200  2.514189s  x-prism-provider: beta/beta-small
+  request 6: HTTP 200  0.007744s  x-prism-provider: beta/beta-small
+  request 7: HTTP 200  0.008431s  x-prism-provider: beta/beta-small
+  request 8: HTTP 200  0.008180s  x-prism-provider: beta/beta-small
+  circuit: {'alpha': 'open', 'beta': 'closed'}
+alpha restored; one request per second
+  t+1s: HTTP 200  0.007853s  x-prism-provider: beta/beta-small
+  t+2s: HTTP 200  0.009996s  x-prism-provider: beta/beta-small
+  t+3s: HTTP 200  0.008464s  x-prism-provider: beta/beta-small
+  t+4s: HTTP 200  0.010294s  x-prism-provider: beta/beta-small
+  t+5s: HTTP 200  0.008769s  x-prism-provider: alpha/alpha-small
+  t+6s: HTTP 200  0.012123s  x-prism-provider: alpha/alpha-small
+  t+7s: HTTP 200  0.009629s  x-prism-provider: alpha/alpha-small
+  circuit: {'alpha': 'closed', 'beta': 'closed'}

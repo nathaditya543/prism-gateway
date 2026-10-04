@@ -1,0 +1,39 @@
+$ python scripts/load_test.py --url http://localhost:8080 --key prism-sk-free-7g8h9i --model fast --requests 30 --concurrency 10 --rpm-limit 10
+Bursting 30 requests at concurrency 10 ...
+
+Burst finished in 0.4s
+  accepted (200):      10
+  rate limited (429):  20
+  latency avg/p95 ms:  369 / 391
+
+Client-side accounting totals - compare with your usage API for this key:
+  accepted requests:   10
+  prompt tokens:       120
+  completion tokens:   269
+  sum of cost headers: 0.000179 USD (10 of 10 had a numeric header)
+
+Over-admission check OK: 10 accepted <= limit 10.
+
+$ curl -H "X-Admin-Token: ..." "http://localhost:8080/admin/usage?key=prism-sk-free-7g8h9i"
+{
+    "key": "prism-sk-free-7g8h9i",
+    "team": "free-tier",
+    "from": "2026-10-01",
+    "to": "2026-10-03",
+    "requests": 10,
+    "rejected": 20,
+    "failed": 0,
+    "prompt_tokens": 120,
+    "completion_tokens": 269,
+    "cost_usd": 0.0001794,
+    "cost_usd_exact": "0.0001794",
+    "cache_hits": 0,
+    "budget": {
+        "month_to_date_usd": 0.0001794,
+        "month_to_date_usd_exact": "0.0001794",
+        "monthly_budget_usd": 5.0,
+        "monthly_budget_usd_exact": "5",
+        "exhausted": false
+    },
+    "requests_per_minute": 10
+}

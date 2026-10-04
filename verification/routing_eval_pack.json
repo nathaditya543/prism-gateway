@@ -1,0 +1,214 @@
+{
+  "file": "data/routing_eval.jsonl",
+  "method": "engineered signals on task sentences (see DifficultyRouter), threshold 2.0",
+  "total": 20,
+  "correct": 20,
+  "accuracy": 1.0,
+  "baseline": {
+    "method": "length-only: >= 20 words routes to smart",
+    "correct": 12,
+    "accuracy": 0.6
+  },
+  "cases": [
+    {
+      "id": "route_001",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): fact lookup (-2)",
+      "baseline": "fast",
+      "note": "short, easy fact"
+    },
+    {
+      "id": "route_002",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): text transformation (-2)",
+      "baseline": "fast",
+      "note": "short, easy conversion"
+    },
+    {
+      "id": "route_003",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -1.0,
+      "reason": "simple (score -1.0 < 2): short output requested (-1)",
+      "baseline": "fast",
+      "note": "short, easy writing"
+    },
+    {
+      "id": "route_004",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -1.5,
+      "reason": "simple (score -1.5 < 2): definition (-1.5)",
+      "baseline": "fast",
+      "note": "short, easy definition"
+    },
+    {
+      "id": "route_005",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): text transformation (-2)",
+      "baseline": "fast",
+      "note": "short, easy translation"
+    },
+    {
+      "id": "route_006",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): fact lookup (-2)",
+      "baseline": "smart",
+      "note": "trap: long input, trivial lookup task"
+    },
+    {
+      "id": "route_007",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): fact lookup (-2)",
+      "baseline": "smart",
+      "note": "trap: long input, trivial extraction task"
+    },
+    {
+      "id": "route_008",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): extraction (-2)",
+      "baseline": "fast",
+      "note": "short, easy extraction"
+    },
+    {
+      "id": "route_009",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -1.0,
+      "reason": "simple (score -1.0 < 2): closed yes/no question (-1)",
+      "baseline": "fast",
+      "note": "short, easy arithmetic"
+    },
+    {
+      "id": "route_010",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): text transformation (-2)",
+      "baseline": "smart",
+      "note": "trap: longer input, trivial rewrite task"
+    },
+    {
+      "id": "route_011",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 3.5,
+      "reason": "complex (score 3.5 >= 2): formal proof/derivation (+3), domain terms [irrational] (+0.5)",
+      "baseline": "fast",
+      "note": "trap: short but hard proof"
+    },
+    {
+      "id": "route_012",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 4.0,
+      "reason": "complex (score 4.0 >= 2): explicit reasoning requested (+2), estimation (+2)",
+      "baseline": "fast",
+      "note": "trap: short but multi-step estimation"
+    },
+    {
+      "id": "route_013",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 6.0,
+      "reason": "complex (score 6.0 >= 2): causal 'why' question (+2), causal analysis (+1.5), enumerated analysis (+1), domain terms [p99, latency, distributed] (+1.5)",
+      "baseline": "fast",
+      "note": "trap: short but deep systems reasoning"
+    },
+    {
+      "id": "route_014",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 5.5,
+      "reason": "complex (score 5.5 >= 2): trade-off analysis (+2), design task (+2), domain terms [schema, multi-tenant, proration] (+1.5)",
+      "baseline": "fast",
+      "note": "complex design task"
+    },
+    {
+      "id": "route_015",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 7.5,
+      "reason": "complex (score 7.5 >= 2): explicit reasoning requested (+2), comparison (+1.5), recommendation (+1), domain terms [event sourcing, ledger] (+1), multi-part request x2 (+2)",
+      "baseline": "smart",
+      "note": "complex comparison and recommendation"
+    },
+    {
+      "id": "route_016",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 5.0,
+      "reason": "complex (score 5.0 >= 2): algorithmic complexity (+2), code generation (+1), explanation of how/what (+1), multi-part request x1 (+1)",
+      "baseline": "smart",
+      "note": "hard algorithm with explanation"
+    },
+    {
+      "id": "route_017",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 4.5,
+      "reason": "complex (score 4.5 >= 2): explanation of how/what (+1), edge-case reasoning (+1), domain terms [consistency, quorum, partition] (+1.5), multi-part request x1 (+1)",
+      "baseline": "smart",
+      "note": "deep distributed-systems question"
+    },
+    {
+      "id": "route_018",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 4.5,
+      "reason": "complex (score 4.5 >= 2): planning (+1.5), open-ended method (+1), domain terms [zero-downtime, migration] (+1), multi-part request x1 (+1)",
+      "baseline": "smart",
+      "note": "complex planning task"
+    },
+    {
+      "id": "route_019",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 5.0,
+      "reason": "complex (score 5.0 >= 2): causal analysis (+1.5), diagnosis (+1.5), open-ended method (+1), multi-part request x1 (+1)",
+      "baseline": "smart",
+      "note": "trap: shortish but expert debugging"
+    },
+    {
+      "id": "route_020",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 3.5,
+      "reason": "complex (score 3.5 >= 2): formal proof/derivation (+3), domain terms [integers] (+0.5)",
+      "baseline": "fast",
+      "note": "trap: short but requires a proof"
+    }
+  ]
+}

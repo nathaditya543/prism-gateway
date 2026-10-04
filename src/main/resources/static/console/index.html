@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prism Ops Console</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --text: #1d2330; --muted: #667085; --line: #e4e7ec;
+    --accent: #4f46e5; --ok: #12805c; --warn: #b54708; --bad: #c01048; --chip: #eef0f4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0f1218; --panel: #171b23; --text: #e6e8ee; --muted: #98a2b3; --line: #2a303c;
+            --accent: #8b85ff; --ok: #3ccb7f; --warn: #f5a524; --bad: #f97066; --chip: #222835; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 14px/1.45 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { display: flex; align-items: center; gap: 16px; padding: 14px 24px; border-bottom: 1px solid var(--line);
+           background: var(--panel); position: sticky; top: 0; z-index: 2; flex-wrap: wrap; }
+  header h1 { font-size: 17px; margin: 0; letter-spacing: .2px; }
+  header h1 span { color: var(--accent); }
+  header .spacer { flex: 1; }
+  input, select, button { font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line);
+           border-radius: 8px; padding: 6px 10px; }
+  button { cursor: pointer; } button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  main { padding: 20px 24px 48px; display: grid; gap: 20px; max-width: 1400px; margin: 0 auto; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+  .tile { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .tile .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .5px; }
+  .tile .value { font-size: 24px; font-weight: 600; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .tile .sub { color: var(--muted); font-size: 12px; }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  section h2 { font-size: 14px; margin: 0; padding: 12px 16px; border-bottom: 1px solid var(--line);
+               display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  section h2 .hint { color: var(--muted); font-weight: 400; font-size: 12px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } }
+  .scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { padding: 7px 12px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+  th { color: var(--muted); font-weight: 500; font-size: 12px; background: var(--bg); }
+  td.num, th.num { text-align: right; }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--chip); }
+  .chip { display: inline-block; padding: 1px 8px; border-radius: 99px; font-size: 12px; background: var(--chip); }
+  .s-ok { color: var(--ok); } .s-hit { color: var(--accent); } .s-warn { color: var(--warn); } .s-bad { color: var(--bad); }
+  .bar { height: 6px; background: var(--chip); border-radius: 4px; min-width: 80px; overflow: hidden; }
+  .bar > div { height: 100%; background: var(--accent); }
+  .bar.full > div { background: var(--bad); }
+  .muted { color: var(--muted); }
+  .detail { white-space: normal; color: var(--muted); font-size: 12px; max-width: 520px; }
+  .err { color: var(--bad); padding: 12px 16px; }
+  .empty { color: var(--muted); padding: 14px 16px; }
+</style>
+</head>
+<body>
+<header>
+  <h1><span>◆</span> Prism ops console</h1>
+  <span class="muted" id="status">not connected</span>
+  <div class="spacer"></div>
+  <label class="muted">Admin token <input id="token" type="password" placeholder="X-Admin-Token" size="18"></label>
+  <label class="muted"><input id="auto" type="checkbox" checked> auto-refresh</label>
+  <button class="primary" id="refresh">Refresh</button>
+</header>
+<main>
+  <div class="tiles" id="tiles"></div>
+
+  <section>
+    <h2>Usage by key <span class="hint">this calendar month (UTC) · requests = served (200), cost from provider-reported usage</span></h2>
+    <div class="scroll"><table id="usage"></table></div>
+  </section>
+
+  <div class="grid2">
+    <section>
+      <h2>Semantic cache <span class="hint" id="cache-hint"></span></h2>
+      <div class="scroll"><table id="cache"></table></div>
+    </section>
+    <section>
+      <h2>Provider health <span class="hint">rolling 60s of upstream attempts · circuit opens after 5 straight failures</span></h2>
+      <div class="scroll"><table id="providers"></table></div>
+    </section>
+  </div>
+
+  <section>
+    <h2>Recent requests
+      <select id="f-key"><option value="">all keys</option></select>
+      <select id="f-status">
+        <option value="">all statuses</option>
+        <option>ok</option><option>cache_hit</option><option>rejected_auth</option><option>rejected_allowlist</option>
+        <option>rejected_rate_limit</option><option>rejected_budget</option><option>rejected_unknown_model</option>
+        <option>rejected_invalid</option><option>upstream_error</option><option>stream_interrupted</option>
+      </select>
+      <span class="hint">click a row for routing reason, attempts and errors</span>
+    </h2>
+    <div class="scroll"><table id="logs"></table></div>
+  </section>
+
+  <section>
+    <h2>Routing eval
+      <select id="eval-set"><option value="pack">pack set (routing_eval.jsonl)</option><option value="holdout">held-out set</option></select>
+      <button id="run-eval">Run</button>
+      <span class="hint" id="eval-summary"></span>
+    </h2>
+    <div class="scroll"><table id="eval"></table></div>
+  </section>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const money = (v) => v == null ? '–' : '$' + Number(v).toFixed(v >= 0.01 ? 4 : 7).replace(/0+$/, '').replace(/\.$/, '');
+const pct = (v) => (100 * v).toFixed(1) + '%';
+const mask = (k) => k && k.length > 16 ? k.slice(0, 12) + '…' : k;
+
+function loadToken() {
+  try { return localStorage.getItem('prism-admin-token') || ''; } catch { return ''; }
+}
+function saveToken(t) { try { localStorage.setItem('prism-admin-token', t); } catch {} }
+$('token').value = loadToken();
+$('token').addEventListener('change', () => { saveToken($('token').value); refresh(); });
+
+async function api(path) {
+  const res = await fetch(path, { headers: { 'X-Admin-Token': $('token').value } });
+  if (res.status === 401) throw new Error('Admin token rejected - enter it in the header (default dev token: prism-admin-dev)');
+  if (!res.ok) throw new Error(path + ' -> HTTP ' + res.status);
+  return res.json();
+}
+
+function statusClass(s) {
+  if (s === 'ok') return 's-ok';
+  if (s === 'cache_hit') return 's-hit';
+  if (s.startsWith('rejected')) return 's-warn';
+  return 's-bad';
+}
+
+function renderTiles(stats, cache) {
+  const t = stats.totals, lat = stats.latency.gateway_added_ms || {};
+  const served = stats.by_status.filter(s => s.status === 'ok' || s.status === 'cache_hit').reduce((a, s) => a + s.count, 0);
+  const rejected = stats.by_status.filter(s => s.status.startsWith('rejected')).reduce((a, s) => a + s.count, 0);
+  const tiles = [
+    ['Requests', t.requests, `${served} served · ${rejected} rejected`],
+    ['Spend', money(t.cost_usd), 'all keys, all time'],
+    ['Cache hit rate', pct(cache.hit_rate), `${cache.hits} hits / ${cache.misses} misses`],
+    ['Fallbacks', t.fallbacks, `${t.retries} retries absorbed`],
+    ['Gateway added latency', lat.p50 != null ? lat.p50 + ' ms' : '–', lat.p95 != null ? `p95 ${lat.p95} ms (non-streaming)` : 'no samples yet'],
+  ];
+  $('tiles').innerHTML = tiles.map(([l, v, s]) =>
+    `<div class="tile"><div class="label">${l}</div><div class="value">${esc(v)}</div><div class="sub">${esc(s)}</div></div>`).join('');
+}
+
+function renderUsage(usage) {
+  const keySel = $('f-key'), current = keySel.value;
+  keySel.innerHTML = '<option value="">all keys</option>' + usage.keys.map(k =>
+    `<option value="${esc(k.key)}">${esc(k.team)}</option>`).join('');
+  keySel.value = current;
+  $('usage').innerHTML = `<thead><tr><th>Team</th><th>Key</th><th class="num">Requests</th><th class="num">Rejected</th>
+    <th class="num">Prompt tok</th><th class="num">Completion tok</th><th class="num">Cache hits</th><th class="num">Cost</th>
+    <th>Budget used</th><th class="num">RPM limit</th></tr></thead><tbody>` +
+    usage.keys.map(k => {
+      const spent = k.budget.month_to_date_usd, budget = k.budget.monthly_budget_usd;
+      const ratio = budget > 0 ? Math.min(1, spent / budget) : 1;
+      return `<tr><td>${esc(k.team)}</td><td class="muted">${esc(mask(k.key))}</td>
+        <td class="num">${k.requests}</td><td class="num">${k.rejected}</td>
+        <td class="num">${k.prompt_tokens}</td><td class="num">${k.completion_tokens}</td><td class="num">${k.cache_hits}</td>
+        <td class="num">${money(k.cost_usd)}</td>
+        <td><div class="bar ${k.budget.exhausted ? 'full' : ''}" title="${money(spent)} of ${money(budget)}"><div style="width:${(ratio*100).toFixed(1)}%"></div></div>
+            <span class="muted">${money(spent)} / ${money(budget)}</span></td>
+        <td class="num">${k.requests_per_minute}</td></tr>`;
+    }).join('') + '</tbody>';
+}
+
+function renderCache(cache) {
+  $('cache-hint').textContent = `embedder ${cache.embedder} · TTL ${cache.ttl_minutes} min · per-key scope`;
+  $('cache').innerHTML = `<thead><tr><th>Team</th><th>Enabled</th><th class="num">Threshold</th><th class="num">Entries</th>
+    <th class="num">Hits</th><th class="num">Misses</th><th class="num">Bypassed</th><th class="num">Hit rate</th></tr></thead><tbody>` +
+    cache.keys.map(k => `<tr><td>${esc(k.team)}</td><td>${k.enabled ? '<span class="s-ok">on</span>' : '<span class="muted">off</span>'}</td>
+      <td class="num">${k.similarity_threshold ?? '–'}</td><td class="num">${k.entries}</td><td class="num">${k.hits}</td>
+      <td class="num">${k.misses}</td><td class="num">${k.bypassed}</td><td class="num">${pct(k.hit_rate)}</td></tr>`).join('') + '</tbody>';
+}
+
+function renderProviders(health) {
+  $('providers').innerHTML = `<thead><tr><th>Provider</th><th>State</th><th>Circuit</th><th class="num">In flight</th><th class="num">Attempts</th><th class="num">Errors</th>
+    <th class="num">Error rate</th><th class="num">Avg ms</th><th class="num">p95 ms</th><th>Last</th></tr></thead><tbody>` +
+    Object.entries(health).map(([name, h]) => `<tr><td>${esc(name)}</td>
+      <td>${h.attempts === 0 ? '<span class="muted">idle</span>' : h.healthy ? '<span class="s-ok">healthy</span>' : '<span class="s-bad">degraded</span>'}</td>
+      <td>${h.circuit === 'closed' ? '<span class="muted">closed</span>' : `<span class="s-bad">${esc(h.circuit)}</span>`}</td>
+      <td class="num">${h.inFlight ?? '–'}</td>
+      <td class="num">${h.attempts}</td><td class="num">${h.errors}</td><td class="num">${pct(h.errorRate)}</td>
+      <td class="num">${h.avgLatencyMs ?? '–'}</td><td class="num">${h.p95LatencyMs ?? '–'}</td><td>${esc(h.lastOutcome ?? '–')}</td></tr>`).join('') + '</tbody>';
+}
+
+const expanded = new Set();
+function renderLogs(logs) {
+  if (!logs.length) { $('logs').innerHTML = '<tr><td class="empty">No requests yet.</td></tr>'; return; }
+  $('logs').innerHTML = `<thead><tr><th>Time</th><th>Team</th><th>Model</th><th>Served by</th><th>Status</th><th>Cache</th>
+    <th>Fallback</th><th class="num">Tokens</th><th class="num">Cost</th><th class="num">Latency</th><th>Route</th></tr></thead><tbody>` +
+    logs.map(l => {
+      const served = l.resolved_provider ? `${l.resolved_provider}/${l.resolved_model}` : (l.cache === 'hit' ? 'cache' : '–');
+      const row = `<tr data-id="${l.request_id}" style="cursor:pointer">
+        <td class="muted">${new Date(l.created_at).toLocaleTimeString()}</td><td>${esc(l.team ?? l.key_hint)}</td>
+        <td>${esc(l.requested_model ?? '–')}${l.stream ? ' <span class="chip">stream</span>' : ''}</td><td>${esc(served)}</td>
+        <td><span class="${statusClass(l.status)}">${esc(l.status)}</span></td>
+        <td>${l.cache === 'hit' ? `<span class="s-hit">hit</span> <span class="muted">${l.cache_similarity ?? ''}</span>` : esc(l.cache)}</td>
+        <td>${l.fallback ? '<span class="s-warn">yes</span>' : ''}${l.retries ? ` <span class="muted">${l.retries} retr.</span>` : ''}</td>
+        <td class="num">${l.prompt_tokens + l.completion_tokens}</td><td class="num">${money(l.cost_usd)}</td>
+        <td class="num">${l.latency_ms} ms</td><td>${l.route_tier ? `<span class="chip">${esc(l.route_tier)}</span>` : ''}</td></tr>`;
+      const detail = expanded.has(l.request_id) ? `<tr><td colspan="11" class="detail">
+        <b>${esc(l.request_id)}</b>${l.route_reason ? `<br>route: ${esc(l.route_reason)}` : ''}
+        ${l.attempts ? `<br>attempts: ${esc(l.attempts)}` : ''}${l.error_message ? `<br>error: ${esc(l.error_type)} - ${esc(l.error_message)}` : ''}
+        ${l.upstream_latency_ms != null ? `<br>upstream ${l.upstream_latency_ms} ms of ${l.latency_ms} ms total` : ''}</td></tr>` : '';
+      return row + detail;
+    }).join('') + '</tbody>';
+  $('logs').querySelectorAll('tr[data-id]').forEach(tr => tr.addEventListener('click', () => {
+    const id = tr.dataset.id; expanded.has(id) ? expanded.delete(id) : expanded.add(id); refresh();
+  }));
+}
+
+async function runEval() {
+  try {
+    const r = await api('/admin/routing/eval?set=' + $('eval-set').value);
+    $('eval-summary').textContent = `accuracy ${pct(r.accuracy)} (${r.correct}/${r.total}) · length-only baseline ${pct(r.baseline.accuracy)}`;
+    $('eval').innerHTML = `<thead><tr><th>Case</th><th>Expected</th><th>Actual</th><th>Result</th><th class="num">Score</th>
+      <th>Baseline</th><th>Reason</th></tr></thead><tbody>` + r.cases.map(c => `<tr><td>${esc(c.id)}</td><td>${c.expected}</td>
+      <td>${c.actual}</td><td class="${c.result === 'pass' ? 's-ok' : 's-bad'}">${c.result}</td><td class="num">${c.score}</td>
+      <td class="${c.baseline === c.expected ? 'muted' : 's-warn'}">${c.baseline}</td><td class="detail">${esc(c.reason)}</td></tr>`).join('') + '</tbody>';
+  } catch (e) { $('eval').innerHTML = `<tr><td class="err">${esc(e.message)}</td></tr>`; }
+}
+$('run-eval').addEventListener('click', runEval);
+
+let busy = false;
+async function refresh() {
+  if (busy) return; busy = true;
+  try {
+    const q = new URLSearchParams({ limit: 40 });
+    if ($('f-key').value) q.set('key', $('f-key').value);
+    if ($('f-status').value) q.set('status', $('f-status').value);
+    const [stats, usage, cache, health, logs] = await Promise.all([
+      api('/admin/stats'), api('/admin/usage'), api('/admin/cache/stats'), api('/admin/providers/health'), api('/admin/logs?' + q)]);
+    renderTiles(stats, cache); renderUsage(usage); renderCache(cache); renderProviders(health); renderLogs(logs);
+    $('status').textContent = 'updated ' + new Date().toLocaleTimeString();
+  } catch (e) {
+    $('status').innerHTML = `<span class="s-bad">${esc(e.message)}</span>`;
+  } finally { busy = false; }
+}
+$('refresh').addEventListener('click', refresh);
+$('f-key').addEventListener('change', refresh);
+$('f-status').addEventListener('change', refresh);
+setInterval(() => { if ($('auto').checked && !document.hidden) refresh(); }, 3000);
+refresh();
+</script>
+</body>
+</html>

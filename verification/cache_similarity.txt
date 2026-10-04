@@ -1,0 +1,20 @@
+A: How do I reset my password on the dashboard?
+B: What are the steps to reset my dashboard password?
+{"similarity":1.0,"a_terms":["dashboard","password","reset"],"b_terms":["dashboard","password","reset"],"embedder":"lexical-bow-v1"}
+
+A: How do I reset my password on the dashboard?
+B: How do I reset my two-factor authentication on the dashboard?
+{"similarity":0.6667,"a_terms":["dashboard","password","reset"],"b_terms":["dashboard","reset","twofactor"],"embedder":"lexical-bow-v1"}
+
+A: What is the refund policy for annual plans?
+B: If I bought an annual plan, can I get my money back?
+{"similarity":0.75,"a_terms":["annual","plan","policy","refund"],"b_terms":["annual","buy","plan","refund"],"embedder":"lexical-bow-v1"}
+
+A: (1a2b3c4d) What is a load balancer?
+B: (9f8e7d6c) What is a load balancer?
+{"similarity":0.6667,"a_terms":["1a2b3c4d","balancer","load"],"b_terms":["9f8e7d6c","balancer","load"],"embedder":"lexical-bow-v1"}
+
+A: (1a2b3c4d) What is a load balancer?
+B: (1a2b3c4d) Compare TCP and UDP for game servers.
+{"similarity":0.2357,"a_terms":["1a2b3c4d","balancer","load"],"b_terms":["1a2b3c4d","compare","game","server","tcp","udp"],"embedder":"lexical-bow-v1"}
+

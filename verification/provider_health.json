@@ -1,0 +1,24 @@
+{
+    "alpha": {
+        "attempts": 337,
+        "errors": 75,
+        "errorRate": 0.22255192878338279,
+        "avgLatencyMs": 58,
+        "p95LatencyMs": 30,
+        "lastOutcome": "ok",
+        "circuit": "closed",
+        "healthy": true,
+        "inFlight": 0
+    },
+    "beta": {
+        "attempts": 14,
+        "errors": 0,
+        "errorRate": 0.0,
+        "avgLatencyMs": 2,
+        "p95LatencyMs": 4,
+        "lastOutcome": "ok",
+        "circuit": "closed",
+        "healthy": true,
+        "inFlight": 0
+    }
+}

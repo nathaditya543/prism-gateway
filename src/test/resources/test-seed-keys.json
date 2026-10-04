@@ -1,0 +1,23 @@
+{
+  "_comment": "Tenants for the integration tests; each test owns its key so limits do not interfere.",
+  "tenants": [
+    {"team": "cache-a", "virtual_key": "test-cache-a", "monthly_budget_usd": 50,
+     "rate_limit": {"requests_per_minute": 1000}, "model_allowlist": ["fast"],
+     "semantic_cache": {"enabled": true, "similarity_threshold": 0.92}},
+    {"team": "cache-b", "virtual_key": "test-cache-b", "monthly_budget_usd": 50,
+     "rate_limit": {"requests_per_minute": 1000}, "model_allowlist": ["fast"],
+     "semantic_cache": {"enabled": true, "similarity_threshold": 0.92}},
+    {"team": "general", "virtual_key": "test-general", "monthly_budget_usd": 50,
+     "rate_limit": {"requests_per_minute": 1000}, "model_allowlist": ["fast", "smart", "auto"],
+     "semantic_cache": {"enabled": false}},
+    {"team": "limited", "virtual_key": "test-limited", "monthly_budget_usd": 50,
+     "rate_limit": {"requests_per_minute": 5}, "model_allowlist": ["fast"],
+     "semantic_cache": {"enabled": false}},
+    {"team": "broke-burst", "virtual_key": "test-broke-burst", "monthly_budget_usd": 0.00001,
+     "rate_limit": {"requests_per_minute": 1000}, "model_allowlist": ["fast"],
+     "semantic_cache": {"enabled": false}},
+    {"team": "broke", "virtual_key": "test-broke", "monthly_budget_usd": 0.00001,
+     "rate_limit": {"requests_per_minute": 1000}, "model_allowlist": ["fast"],
+     "semantic_cache": {"enabled": false}}
+  ]
+}

@@ -1,0 +1,28 @@
+$ python scripts/load_test.py --url http://localhost:8080 --key prism-sk-research-4d5e6f --model fast --requests 120 --concurrency 30
+Bursting 120 requests at concurrency 30 ...
+
+Burst finished in 0.8s
+  accepted (200):      120
+  rate limited (429):  0
+  latency avg/p95 ms:  101 / 328
+
+Client-side accounting totals - compare with your usage API for this key:
+  accepted requests:   120
+  prompt tokens:       1440
+  completion tokens:   3108
+  sum of cost headers: 0.002081 USD (120 of 120 had a numeric header)
+
+$ python scripts/load_test.py --url http://localhost:8080 --key prism-sk-research-4d5e6f --model fast --requests 120 --concurrency 50
+Bursting 120 requests at concurrency 50 ...
+
+Burst finished in 0.6s
+  accepted (200):      120
+  rate limited (429):  0
+  latency avg/p95 ms:  139 / 344
+
+Client-side accounting totals - compare with your usage API for this key:
+  accepted requests:   120
+  prompt tokens:       1440
+  completion tokens:   3158
+  sum of cost headers: 0.002111 USD (120 of 120 had a numeric header)
+

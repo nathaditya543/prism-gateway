@@ -1,0 +1,254 @@
+{
+  "file": "data/routing_holdout2.jsonl",
+  "method": "engineered signals on task sentences (see DifficultyRouter), threshold 2.0",
+  "total": 24,
+  "correct": 23,
+  "accuracy": 0.958,
+  "baseline": {
+    "method": "length-only: >= 20 words routes to smart",
+    "correct": 13,
+    "accuracy": 0.542
+  },
+  "cases": [
+    {
+      "id": "h2_001",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": 0.0,
+      "reason": "simple (score 0.0 < 2): no difficulty signals",
+      "baseline": "fast",
+      "note": "short fact"
+    },
+    {
+      "id": "h2_002",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): text transformation (-2)",
+      "baseline": "fast",
+      "note": "short transformation"
+    },
+    {
+      "id": "h2_003",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": 0.0,
+      "reason": "simple (score 0.0 < 2): no difficulty signals",
+      "baseline": "smart",
+      "note": "trap: long ID list, trivial count"
+    },
+    {
+      "id": "h2_004",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): text transformation (-2)",
+      "baseline": "fast",
+      "note": "short grammar fix"
+    },
+    {
+      "id": "h2_005",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -1.5,
+      "reason": "simple (score -1.5 < 2): definition (-1.5)",
+      "baseline": "fast",
+      "note": "acronym lookup"
+    },
+    {
+      "id": "h2_006",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": 0.0,
+      "reason": "simple (score 0.0 < 2): no difficulty signals",
+      "baseline": "fast",
+      "note": "short lookup"
+    },
+    {
+      "id": "h2_007",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": 0.0,
+      "reason": "simple (score 0.0 < 2): no difficulty signals",
+      "baseline": "fast",
+      "note": "short creative"
+    },
+    {
+      "id": "h2_008",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): fact lookup (-2)",
+      "baseline": "smart",
+      "note": "trap: long roster, trivial tally"
+    },
+    {
+      "id": "h2_009",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -1.0,
+      "reason": "simple (score -1.0 < 2): closed yes/no question (-1)",
+      "baseline": "fast",
+      "note": "closed fact"
+    },
+    {
+      "id": "h2_010",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": 0.0,
+      "reason": "simple (score 0.0 < 2): no difficulty signals",
+      "baseline": "fast",
+      "note": "short list"
+    },
+    {
+      "id": "h2_011",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": -2.0,
+      "reason": "simple (score -2.0 < 2): fact lookup (-2)",
+      "baseline": "fast",
+      "note": "trap: technical text, trivial extraction"
+    },
+    {
+      "id": "h2_012",
+      "expected": "fast",
+      "actual": "fast",
+      "result": "pass",
+      "score": 0.0,
+      "reason": "simple (score 0.0 < 2): no difficulty signals",
+      "baseline": "fast",
+      "note": "trap: short reply drafting"
+    },
+    {
+      "id": "h2_013",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 2.0,
+      "reason": "complex (score 2.0 >= 2): causal 'why' question (+2)",
+      "baseline": "smart",
+      "note": "debugging with investigation plan"
+    },
+    {
+      "id": "h2_014",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 5.0,
+      "reason": "complex (score 5.0 >= 2): formal proof/derivation (+3), algorithmic complexity (+2)",
+      "baseline": "fast",
+      "note": "short derivation"
+    },
+    {
+      "id": "h2_015",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 3.5,
+      "reason": "complex (score 3.5 >= 2): causal analysis (+1.5), open-ended method (+1), multi-part request x1 (+1)",
+      "baseline": "smart",
+      "note": "root-cause analysis + prevention"
+    },
+    {
+      "id": "h2_016",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 2.5,
+      "reason": "complex (score 2.5 >= 2): design task (+2), domain terms [consistency] (+0.5)",
+      "baseline": "fast",
+      "note": "distributed design"
+    },
+    {
+      "id": "h2_017",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 2.5,
+      "reason": "complex (score 2.5 >= 2): explicit reasoning requested (+2), domain terms [sharded] (+0.5)",
+      "baseline": "fast",
+      "note": "trade-off judgment"
+    },
+    {
+      "id": "h2_018",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 2.0,
+      "reason": "complex (score 2.0 >= 2): symptom diagnosis (+2)",
+      "baseline": "fast",
+      "note": "trap: hard context, generic question"
+    },
+    {
+      "id": "h2_019",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 3.0,
+      "reason": "complex (score 3.0 >= 2): formal proof/derivation (+3)",
+      "baseline": "fast",
+      "note": "proof without 'prove'"
+    },
+    {
+      "id": "h2_020",
+      "expected": "smart",
+      "actual": "fast",
+      "result": "fail",
+      "score": 1.0,
+      "reason": "simple (score 1.0 < 2): multi-part request x1 (+1)",
+      "baseline": "fast",
+      "note": "hard concurrent code + explanation"
+    },
+    {
+      "id": "h2_021",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 2.0,
+      "reason": "complex (score 2.0 >= 2): open-ended method (+1), domain terms [migrate, schema] (+1)",
+      "baseline": "fast",
+      "note": "migration planning"
+    },
+    {
+      "id": "h2_022",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 3.0,
+      "reason": "complex (score 3.0 >= 2): quantitative reasoning (+2), multi-part request x1 (+1)",
+      "baseline": "fast",
+      "note": "probability with reasoning"
+    },
+    {
+      "id": "h2_023",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 2.0,
+      "reason": "complex (score 2.0 >= 2): design task (+2)",
+      "baseline": "smart",
+      "note": "architecture critique"
+    },
+    {
+      "id": "h2_024",
+      "expected": "smart",
+      "actual": "smart",
+      "result": "pass",
+      "score": 2.0,
+      "reason": "complex (score 2.0 >= 2): symptom diagnosis (+2)",
+      "baseline": "fast",
+      "note": "trap: severe bug, vague question"
+    }
+  ]
+}

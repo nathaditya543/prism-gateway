@@ -1,0 +1,7 @@
+pair             want   lexical  embedding   (thresholds: search 0.92, free-tier 0.85)
+A paraphrase     hit      1.000      0.951
+A3 near-miss     miss     0.667      0.757
+B paraphrase     hit      0.750      0.701
+salted repeat    miss     0.667      0.894
+unrelated        miss     0.236      0.228
+72F vs 73F       miss     0.800      0.959
