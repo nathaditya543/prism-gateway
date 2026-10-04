@@ -1,0 +1,47 @@
+# The whole demo setup: the gateway plus the pack's two mock providers.
+#
+#   docker compose up --build        # first run builds the gateway image
+#   open http://localhost:8080/console/   (admin token: prism-admin-dev)
+#
+# The mock ports are published too, so failure injection works from the host exactly as in the
+# README, e.g.  curl -X POST localhost:9001/admin/config -d '{"mode": "down"}'
+
+services:
+  alpha:
+    image: python:3.12-slim
+    command: ["python", "/opt/mock_provider.py", "--port", "9001", "--name", "alpha"]
+    volumes:
+      - ./scripts/mock_provider.py:/opt/mock_provider.py:ro
+    environment:
+      PYTHONUNBUFFERED: "1"
+    ports:
+      - "9001:9001"
+
+  beta:
+    image: python:3.12-slim
+    command: ["python", "/opt/mock_provider.py", "--port", "9002", "--name", "beta"]
+    volumes:
+      - ./scripts/mock_provider.py:/opt/mock_provider.py:ro
+    environment:
+      PYTHONUNBUFFERED: "1"
+    ports:
+      - "9002:9002"
+
+  gateway:
+    build: .
+    image: prism-gateway:0.0.1
+    depends_on:
+      - alpha
+      - beta
+    environment:
+      # inside the compose network the providers are reached by service name, not localhost
+      PRISM_PROVIDER_ALPHA_BASE_URL: http://alpha:9001/v1
+      PRISM_PROVIDER_BETA_BASE_URL: http://beta:9002/v1
+      PRISM_ADMIN_TOKEN: ${PRISM_ADMIN_TOKEN:-prism-admin-dev}
+    ports:
+      - "8080:8080"
+    volumes:
+      - prism-data:/app/var
+
+volumes:
+  prism-data:

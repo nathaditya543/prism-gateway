@@ -1,0 +1,12 @@
+# Keep the build context small: only pom, wrapper, sources and data are needed.
+target/
+var/
+verification/
+.git/
+.idea/
+.vscode/
+*.iml
+*.log
+__pycache__/
+VIDEO_SCRIPT.md
+dist/
